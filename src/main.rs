@@ -23,6 +23,9 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     Ok(())
 }
 
-fn do_mkdir(dirname: String) {
-    fs::create_dir(dirname);
+fn do_mkdir(file_name: &str) -> u8 {
+    match fs::create_dir(file_name) {
+        Err(e) => panic!("{}: {}", file_name, e),
+        Ok(_) => 0,
+    }
 }
