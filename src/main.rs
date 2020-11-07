@@ -6,22 +6,28 @@ use std::error;
 use std::fs;
 
 fn main() -> Result<(), Box<dyn error::Error>> {
+
     let args: Vec<_> = env::args().collect();
-    let ref fname_in = args[1];
 
-    let content = fs::read_to_string(fname_in);
-    let docs = YamlLoader::load_from_str(&content.unwrap()).unwrap();
-    let doc = &docs[0];
-    println!("doc: Array\n{:?}", doc);
-
-    /*
-    for element in doc {
-
+    if args.len() == 1 {
+        panic!("invalid argument.");
     }
-    */
+
+    for i in 1..args.len() {
+        let ref fname_in = args[i];
+        let content = fs::read_to_string(fname_in);
+        let docs = YamlLoader::load_from_str(&content.unwrap()).unwrap();
+        let doc = &docs[0];
+        println!("doc\n");
+        println!("{:?}", doc);
+
+        // mkdir_recursive(doc);
+    }
 
     Ok(())
 }
+
+// fn mkdir_recursive(dirs: Array[String])
 
 fn do_mkdir(file_name: &str) -> u8 {
     match fs::create_dir(file_name) {
