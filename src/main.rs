@@ -1,26 +1,4 @@
-use std::env;
-use std::error;
-use std::fs::File;
-use std::io::{BufRead, BufReader};
-
-fn main() -> Result<(), Box<dyn error::Error>> {
-    eprintln!("START");
-    let args: Vec<_> = env::args().collect();
-    let ref fname_in = args[1];
-
-    for result in BufReader::new(File::open(fname_in)?).lines() {
-        let ll = result?;
-        println!("{}", ll);
-    }
-
-    eprintln!("FINISH");
-    Ok(())
-}
-
 /*
-extern crate yaml_rust;
-use yaml_rust::{YamlLoader};
-
 use std::fs;
 use std::io;
 use std::env;
@@ -45,7 +23,33 @@ fn main() -> Result<(), Box<std::error::Error>> {
    println!("{:?}", doc);
 }
 
+*/
+extern crate yaml_rust;
+
+use yaml_rust::{YamlLoader};
+use std::env;
+use std::error;
+use std::fs;
+use std::io::{BufRead, BufReader};
+
+fn main() -> Result<(), Box<dyn error::Error>> {
+    eprintln!("START");
+    let args: Vec<_> = env::args().collect();
+    let ref fname_in = args[1];
+
+    for result in BufReader::new(fs::File::open(fname_in)?).lines() {
+        let ll = result?;
+        println!("{}", ll);
+        let docs = YamlLoader::load_from_str(&ll).unwrap();
+        let doc = &docs[0];
+
+        println!("{:?}", doc);
+    }
+
+    eprintln!("FINISH");
+    Ok(())
+}
+
 fn do_mkdir(dirname: String) {
     fs::create_dir(dirname);
 }
-*/
