@@ -1,4 +1,5 @@
 extern crate yaml_rust;
+extern crate xml;
 
 use yaml_rust::{YamlLoader};
 use std::env;
@@ -6,6 +7,8 @@ use std::error;
 use std::fs;
 
 fn main() -> Result<(), Box<dyn error::Error>> {
+
+    do_mkdir("jape/unchi");
 
     let args: Vec<_> = env::args().collect();
 
@@ -30,7 +33,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
 // fn mkdir_recursive(dirs: Array[String])
 
 fn do_mkdir(file_name: &str) -> u8 {
-    match fs::create_dir(file_name) {
+    match fs::create_dir_all(file_name) {
         Err(e) => panic!("{}: {}", file_name, e),
         Ok(_) => 0,
     }
