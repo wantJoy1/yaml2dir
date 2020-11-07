@@ -1,1 +1,17 @@
-THA BLUE HERBのSELL OUR SOULには全曲を通して「心の闇」というフレーズが5回登場するんじゃ
+- parent1
+  - child1
+  - child2
+  - child3
+- parent2
+  - child1
+  - child2
+  - child3
+- grand
+  - parent1
+    - child1
+    - child2
+    - child3
+  - parent2
+    - child1
+    - child2
+    - child3
