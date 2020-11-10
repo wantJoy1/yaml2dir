@@ -1,11 +1,10 @@
 extern crate yaml_rust;
-use yaml_rust::{Yaml, YamlLoader};
 use std::env;
 use std::error;
 use std::fs;
+use yaml_rust::{Yaml, YamlLoader};
 
 fn main() -> Result<(), Box<dyn error::Error>> {
-
     // 引数を取得して、 args に格納
     let args: Vec<String> = env::args().collect();
 
@@ -17,14 +16,14 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     // 1つめの引数のパスで指されたファイルの中の文字列を content に格納,
     // 失敗したらエラー投げて終了
     let content = match fs::read_to_string(&args[1]) {
-        Ok(s)  => s,
-        Err(_) => panic!("file reading error")
+        Ok(s) => s,
+        Err(_) => panic!("file reading error"),
     };
     // YamlLoader に文字列 content を渡してYamlとして解析させる
     // 失敗したらエラー投げて終了
     let docs = match YamlLoader::load_from_str(&content) {
-        Ok(d)  => d,
-        Err(_) => panic!("parse error")
+        Ok(d) => d,
+        Err(_) => panic!("parse error"),
     };
     // Vec<Yaml> 型の配列 docs のそれぞれの要素を doc に格納する
     for doc in docs {
@@ -43,7 +42,6 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     Ok(())
 }
 
-
 // for develop
 fn inspect(y: &Yaml, n: usize) -> () {
     match y {
@@ -56,7 +54,7 @@ fn inspect(y: &Yaml, n: usize) -> () {
                 inspect(v, n + 1)
             }
         }
-        _ => { println!("not implemented yet.") }
+        _ => println!("not implemented yet."),
     }
 }
 
@@ -70,10 +68,10 @@ fn scan_mkdir(y: &Yaml, n: usize, path: String) -> () {
                     print!("{}", "  ".repeat(n));
                     println!("{}", s);
                     // 新たなパスを表す文字列を作り、それを再帰的に scan_mkdir へ渡す
-                    scan_mkdir(v, n+1, format!("{}/{}",path.to_string(),s));
-                }                
+                    scan_mkdir(v, n + 1, format!("{}/{}", path.to_string(), s));
+                }
             }
-        },
+        }
         _ => {
             println!("mkdir -p {}", path);
             do_mkdir(&path);
@@ -85,6 +83,6 @@ fn scan_mkdir(y: &Yaml, n: usize, path: String) -> () {
 fn do_mkdir(file_name: &str) -> u8 {
     match fs::create_dir_all(file_name) {
         Err(e) => panic!("{}: {}", file_name, e),
-        Ok(_) => 0
+        Ok(_) => 0,
     }
 }
