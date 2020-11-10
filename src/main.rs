@@ -15,16 +15,10 @@ fn main() -> Result<(), Box<dyn error::Error>> {
 
     // 1つめの引数のパスで指されたファイルの中の文字列を content に格納,
     // 失敗したらエラー投げて終了
-    let content = match fs::read_to_string(&args[1]) {
-        Ok(s) => s,
-        Err(_) => panic!("file reading error"),
-    };
+    let content = fs::read_to_string(&args[1])?;
     // YamlLoader に文字列 content を渡してYamlとして解析させる
     // 失敗したらエラー投げて終了
-    let docs = match YamlLoader::load_from_str(&content) {
-        Ok(d) => d,
-        Err(_) => panic!("parse error"),
-    };
+    let docs = YamlLoader::load_from_str(&content)?;
     // Vec<Yaml> 型の配列 docs のそれぞれの要素を doc に格納する
     for doc in docs {
         // doc の中身を出力
